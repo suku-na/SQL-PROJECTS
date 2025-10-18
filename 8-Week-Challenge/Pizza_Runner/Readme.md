@@ -260,5 +260,5 @@ GROUP BY c.customer_id;
 ## ✨ Author
 
 *Sumit Kumar*  
-📎 [GitHub Profile]([(https://github.com/suku-na))  
+📎 [GitHub Profile](https://github.com/suku-na) 
 📂 [Project Repository](https://github.com/suku-na/SQL-PROJECTS/edit/main/8-Week-Challenge/Pizza_Runner)
