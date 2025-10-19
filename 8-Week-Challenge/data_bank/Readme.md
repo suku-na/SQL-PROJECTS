@@ -126,10 +126,12 @@ FROM txn_monthly_balance_cte;
 ---
 
 ## 📂 Repository Structure
+```
 📁 Data Bank
 │
 ├── data-bank-solution-file.sql
 └── README.md
+```
 
 
 ---
@@ -141,15 +143,15 @@ FROM txn_monthly_balance_cte;
 
 ## ✨ Author
 **Sumit Kumar**  
-📎 [GitHub Profile](#)  
-📂 [Project Repository](#)  
-
+📎 [GitHub Profile](https://github.com/suku-na)  
+📂 [Project Repository](https://github.com/suku-na/SQL-PROJECTS/edit/main/8-Week-Challenge/data_bank)
 ---
 
 <h3 align="center">⚡ “Data tells a story — and SQL helps us read it better.” ⚡</h3>
 <p align="center">
-  <em>Thank you for exploring this project — feel free to explore my other SQL case studies!</em>
+  <em>Thank you for exploring this project — feel free to check my other SQL case studies!</em>
 </p>
+
 
 
 
