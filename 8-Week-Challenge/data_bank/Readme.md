@@ -42,16 +42,3 @@ All queries from [`data-bank-solution-file.sql`](./data-bank-solution-file.sql)
 SELECT count(DISTINCT node_id) AS unique_nodes
 FROM customer_nodes;
 
-
-### 2️⃣ Nodes per region and customers per region
-```sql
-SELECT region_id, region_name, count(node_id) AS node_count
-FROM customer_nodes
-INNER JOIN regions USING(region_id)
-GROUP BY region_id, region_name;
-
-SELECT region_id, region_name, count(DISTINCT customer_id) AS customer_count
-FROM customer_nodes
-INNER JOIN regions USING(region_id)
-GROUP BY region_id, region_name;
-
