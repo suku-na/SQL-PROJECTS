@@ -36,9 +36,9 @@ All the analytical SQL queries for this case study are in the solution file 👉
 
 ## A. Data Cleansing Steps
 
-# Create a cleaned version of the weekly_sales table with additional derived columns:
-# - week_number, month_number, calendar_year
-# - age_band, demographic, avg_transaction
+#### Create a cleaned version of the weekly_sales table with additional derived columns:
+#### - week_number, month_number, calendar_year
+#### - age_band, demographic, avg_transaction
 ```sql
 CREATE TABLE data_mart.clean_weekly_sales AS
 WITH date_cte AS (
