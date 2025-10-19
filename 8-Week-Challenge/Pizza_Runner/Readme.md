@@ -28,7 +28,7 @@ the goal is to derive insights around operations, performance, and revenue using
 All the SQL queries for this case study.
 [Pizza_Runner.sql](https://github.com/Basavaraj0127/SQL-PROJECTS/blob/main/Pizza%20Runner/Pizza_Runner.sql)
 
-sql
+```sql
 use pizza_runner;
 
 DROP TABLE IF EXISTS runners;
@@ -143,20 +143,25 @@ VALUES
   (10, 'Salami'),
   (11, 'Tomatoes'),
   (12, 'Tomato Sauce');
-  
+```  
 # Part A ------ Pizza Metrics
 #1. How many pizzas were ordered?
+```sql
 SELECT COUNT(pizza_id) AS pizza_count
 FROM customer_orders;
+```
 
 #2. How many unique customer orders were made?
+```sql
 SELECT * 
 FROM customer_orders;
 
 SELECT COUNT(DISTINCT order_id) AS unique_order_count
 FROM customer_orders;
+```
 
 #3. How many successful orders were delivered by each runner?
+```sql
 UPDATE runner_orders
 SET pickup_time  = NULLIF(pickup_time, 'null'),
     distance     = NULLIF(distance, 'null'),
@@ -167,21 +172,26 @@ SELECT runner_id, COUNT(order_id) AS order_count
 FROM runner_orders
 WHERE duration IS NOT NULL
 GROUP BY runner_id;
-
+```
 #4. How many of each type of pizza was delivered?
+```sql
 SELECT p.pizza_name,count(*) AS Delivery_Count 
 FROM customer_orders AS c INNER JOIN runner_orders AS r USING(order_id) 
 INNER JOIN pizza_names AS p USING(pizza_id) 
 WHERE r.distance is not null
 GROUP BY p.pizza_name;
+```
 
 #5. How many Vegetarian and Meatlovers were ordered by each customer?
+```sql
 SELECT customer_id,pizza_name,count(*) AS Number_of_times_Ordered
 FROM customer_orders AS c INNER JOIN pizza_names AS p using(pizza_id)
 GROUP BY customer_id,pizza_name
 ORDER BY customer_id;
+```
 
 #6. What was the maximum number of pizzas delivered in a single order?
+```sql
 SELECT order_id, pizza_count
 FROM(
 	 SELECT c.order_id,count(*) as pizza_count 
@@ -190,56 +200,73 @@ FROM(
 	 GROUP BY c.order_id) AS T
 ORDER BY pizza_count DESC
 LIMIT 1;
+```
 
 #7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+```sql
 SELECT c.customer_id,
        SUM(CASE WHEN (c.exclusions IS NOT NULL OR c.extras IS NOT NULL) THEN 1 ELSE 0 END) AS with_changes,
        SUM(CASE WHEN (c.exclusions IS NULL AND c.extras IS NULL) THEN 1 ELSE 0 END) AS no_changes
 FROM customer_orders AS c INNER JOIN runner_orders AS r using(order_id)
 WHERE r.distance IS NOT NULL
 GROUP BY c.customer_id;
+```
 
 #8. How many pizzas were delivered that had both exclusions and extras?
+```sql
 SELECT c.customer_id,SUM(CASE WHEN (c.exclusions IS NOT NULL AND c.extras IS NOT NULL) THEN 1 ELSE 0 END) AS with_exclusions_and_extras
 FROM customer_orders AS c INNER JOIN runner_orders AS r using(order_id)
 WHERE r.distance IS NOT NULL
 GROUP BY c.customer_id;
+```
 
 #9. What was the total volume of pizzas ordered for each hour of the day?
+```sql
 SELECT HOUR(order_time) AS hour , COUNT(*) AS pizza_count
 FROM customer_orders
 GROUP BY hour;
+```
 
 #10. What was the volume of orders for each day of the week?
+```sql
 SELECT WEEKDAY(order_time) AS WEEKDAY , COUNT(*) AS pizza_count
 FROM customer_orders
 GROUP BY WEEKDAY;
+```
 
 #Part B ------ Pizza Metrics
 #1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+```sql
 SELECT WEEK(registration_date) AS week, COUNT(runner_id) AS runner_count
 FROM runners
 GROUP BY WEEK(registration_date);
+```
 
 #2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+```sql
 SELECT r.runner_id, AVG(TIMESTAMPDIFF(MINUTE, c.order_time, r.pickup_time)) AS avg_time_to_pickup
 FROM customer_orders c JOIN runner_orders r USING (order_id)
 GROUP BY r.runner_id;
+```
 
 #3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
+```sql
 SELECT c.order_id,COUNT(c.pizza_id) AS pizzas_in_order,
 TIMESTAMPDIFF(MINUTE, c.order_time, r.pickup_time) AS prep_time_minutes
 FROM customer_orders c INNER JOIN runner_orders r USING(order_id)
 WHERE r.pickup_time IS NOT NULL
 GROUP BY c.order_id, c.order_time, r.pickup_time
 ORDER BY pizzas_in_order;
+```
 
 #4. What was the average distance travelled for each customer?
+```
 SELECT c.customer_id,AVG(CAST(REPLACE(r.distance,'km','') AS DECIMAL(5,2))) AS avg_distance_km
 FROM customer_orders c
 JOIN runner_orders r USING(order_id)
 WHERE r.distance IS NOT NULL
 GROUP BY c.customer_id;
+```
 
 ...
 
@@ -248,12 +275,12 @@ GROUP BY c.customer_id;
 
 ## 📂 Repository Structure
 
-
+```
 📁 Pizza Runner
 │
 ├── Pizza_Runner.sql
 └── README.md
-
+```
 
 ---
 
