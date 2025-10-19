@@ -39,12 +39,13 @@ Below are the **exact queries** from that file 👇
 ### 1️⃣ What is the total amount each customer spent at the restaurant?
 
 
-sql
+```sql
 SELECT customer_id, SUM(price) AS total_amout_spent 
 FROM menu 
 INNER JOIN sales USING (product_id)
 GROUP BY customer_id
 ORDER BY total_amout_spent DESC;
+```
 
 
 ---
@@ -52,11 +53,12 @@ ORDER BY total_amout_spent DESC;
 ### 2️⃣ How many days has each customer visited the restaurant?
 
 
-sql
+```sql
 SELECT customer_id, COUNT(DISTINCT(order_date)) AS no_of_visits
 FROM sales
 GROUP BY customer_id
 ORDER BY customer_id;
+```
 
 
 ---
@@ -64,7 +66,7 @@ ORDER BY customer_id;
 ### 3️⃣ What was the first item from the menu purchased by each customer?
 
 
-sql
+```sql
 WITH order_info_cte AS (
   SELECT customer_id, order_date, product_name,
          DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY order_date) AS rank_num
@@ -76,6 +78,7 @@ SELECT customer_id,
 FROM order_info_cte 
 WHERE rank_num = 1 
 GROUP BY customer_id;
+```
 
 
 ---
@@ -83,21 +86,21 @@ GROUP BY customer_id;
 ### 4️⃣ What is the most purchased item on the menu and how many times was it purchased by all customers?
 
 
-sql
+```sql
 SELECT m.product_name, COUNT(*) AS total_purchased
 FROM sales s
 JOIN menu m USING (product_id)
 GROUP BY m.product_name
 ORDER BY total_purchased DESC
 LIMIT 1;
-
+```
 
 ---
 
 ### 5️⃣ Which item was the most popular for each customer?
 
 
-sql
+```sql
 WITH item_counts AS (
   SELECT s.customer_id, m.product_name, COUNT(*) AS times_purchased,
          RANK() OVER(PARTITION BY s.customer_id ORDER BY COUNT(*) DESC) AS rnk
@@ -108,14 +111,14 @@ WITH item_counts AS (
 SELECT customer_id, product_name, times_purchased
 FROM item_counts
 WHERE rnk = 1;
-
+```
 
 ---
 
 ### 6️⃣ Which item was purchased first by the customer after they became a member?
 
 
-sql
+```sql
 WITH diner_info AS (
   SELECT product_name,
          s.customer_id,
@@ -131,14 +134,14 @@ WITH diner_info AS (
 SELECT customer_id, product_name, order_date
 FROM diner_info
 WHERE first_item = 1;
-
+```
 
 ---
 
 ### 7️⃣ Which item was purchased just before the customer became a member?
 
 
-sql
+```sql
 WITH diner_info AS (
   SELECT product_name, s.customer_id, order_date, join_date, m.product_id,
          DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS item_rank
@@ -152,14 +155,14 @@ SELECT customer_id,
 FROM diner_info
 WHERE item_rank = 1
 GROUP BY customer_id;
-
+```
 
 ---
 
 ### 8️⃣ What is the total items and amount spent for each member before they became a member?
 
 
-sql
+```sql
 SELECT s.customer_id,
        COUNT(product_name) AS total_items,
        SUM(price) AS amount_spent
@@ -169,14 +172,14 @@ INNER JOIN members AS mem USING(customer_id)
 WHERE order_date < join_date
 GROUP BY s.customer_id
 ORDER BY customer_id;
-
+```
 
 ---
 
 ### 9️⃣ If each $1 spent equates to 10 points and sushi has a 2x points multiplier — how many points would each customer have?
 
 
-sql
+```sql
 -- 9a. Points if customers had joined before purchasing
 SELECT customer_id,
        SUM(CASE WHEN product_name = 'sushi' THEN price * 20 ELSE price * 10 END) AS customer_points
@@ -194,14 +197,14 @@ INNER JOIN members AS mem USING(customer_id)
 WHERE order_date >= join_date
 GROUP BY s.customer_id
 ORDER BY s.customer_id;
-
+```
 
 ---
 
 ### 🔟 In the first week after a customer joins the program (including join date), they earn 2x points on all items — how many points do customer A and B have at the end of January?
 
 
-sql
+```sql
 WITH program_last_day_cte AS (
   SELECT join_date, DATE_ADD(join_date, INTERVAL 6 DAY) AS program_last_date, customer_id
   FROM members
@@ -221,7 +224,7 @@ AND order_date <= '2021-01-31'
 AND order_date >= join_date
 GROUP BY s.customer_id
 ORDER BY s.customer_id;
-
+```
 
 ---
 
@@ -230,21 +233,21 @@ ORDER BY s.customer_id;
 ### 🧮 Join All The Things
 
 
-sql
+```sql
 SELECT customer_id, order_date, product_name, price,
        IF(order_date >= join_date, 'Y', 'N') AS member
 FROM members
 RIGHT JOIN sales USING (customer_id)
 INNER JOIN menu USING (product_id)
 ORDER BY customer_id, order_date;
-
+```
 
 ---
 
 ### 🥇 Rank All The Things
 
 
-sql
+```sql
 WITH data_table AS (
   SELECT customer_id, order_date, product_name, price,
          IF(order_date >= join_date, 'Y', 'N') AS member
@@ -256,7 +259,7 @@ WITH data_table AS (
 SELECT *,
        IF(member = 'N', NULL, DENSE_RANK() OVER (PARTITION BY customer_id, member ORDER BY order_date)) AS ranking
 FROM data_table;
-
+```
 
 ---
 
@@ -271,13 +274,13 @@ FROM data_table;
 
 ## 📂 Repository Structure
 
-
+```
 📁 Danny's Diner
 │
 ├── Danny_Diner_Case_Study.sql.sql
 ├── danny case 1 ER.png
 └── README.md
-
+```
 
 ---
 
