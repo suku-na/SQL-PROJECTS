@@ -126,8 +126,8 @@ WITH plan_steps AS (SELECT customer_id, plan_id, start_date, LEAD(start_date) OV
 
 ## ✨ Author
 **Sumit Kumar**  
-📎 [GitHub](https://github.com/suku-na)  
-
+📎 [GitHub Profile](https://github.com/suku-na)  
+📂 [Project Repository](https://github.com/suku-na/SQL-PROJECTS/edit/main/8-Week-Challenge/Foodie)
 ---
 
 <h3 align="center">⚡ “Data tells a story — and SQL helps us read it better.” ⚡</h3>
