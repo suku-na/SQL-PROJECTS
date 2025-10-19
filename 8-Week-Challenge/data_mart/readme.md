@@ -65,7 +65,7 @@ SELECT formatted_date AS week_date,
 FROM date_cte;
 ```
 
-##B. Data Exploration
+## B. Data Exploration
 
 ### 1. What day of the week is used for each week_date value?
 ```sql
