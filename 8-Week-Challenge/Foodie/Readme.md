@@ -46,3 +46,11 @@ All queries are from [`foodie_fi.sql`](./foodie_fi.sql). Below are the questions
 SELECT COUNT(DISTINCT customer_id) AS total_customers
 FROM subscriptions;
 
+### 2️⃣ What is the distribution of customers across different plan types?
+```sql
+SELECT p.plan_name, COUNT(s.customer_id) AS total_customers
+FROM subscriptions s
+JOIN plans p ON s.plan_id = p.plan_id
+GROUP BY p.plan_name
+ORDER BY total_customers DESC;
+
